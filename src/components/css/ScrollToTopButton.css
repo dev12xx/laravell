@@ -1,0 +1,39 @@
+.scroll-to-top {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: #000; /* black arrow */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px; /* increase clickable area */
+  box-shadow: none;
+  cursor: pointer;
+  opacity: 0;
+  transform: translateY(20px);
+  pointer-events: none;
+  transition: opacity 0.25s ease, transform 0.25s ease, background 0.2s ease;
+  z-index: 999;
+}
+
+.scroll-to-top:hover {
+  background: transparent;
+}
+
+.scroll-to-top.show {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+/* SVG arrow styling */
+.scroll-to-top .arrow-icon {
+  display: inline-block;
+  width: 28px;
+  height: 28px;
+  color: currentColor; /* inherit black from button */
+  filter: drop-shadow(0 1px 2px rgba(255,255,255,0.15)); /* subtle highlight on dark backgrounds */
+}

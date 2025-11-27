@@ -1,0 +1,68 @@
+/* Accueil Page Styles */
+
+/* Accueil hero image in the top-right */
+.accueil-image {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 360px;
+  height: auto;
+  border-radius: 10px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  border: 1px solid var(--schb-border);
+}
+
+/* Reserve space on the right so text stays on the left */
+.accueil-hero {
+  padding-right: 26rem; /* roughly matches the image width + margins */
+  min-height: 360px;
+}
+
+/* Accueil specific typography blocks */
+.accueil-hero .step-title {
+  color: #000000;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+/* use shared .policy-box and .actions-row from components/css/Common.css */
+
+/* Inline-style replacements */
+.intro-text {
+  margin-bottom: 1rem;
+}
+
+.list-default {
+  padding-left: 1.25rem;
+  margin-bottom: 1rem;
+}
+
+.list-default-lg {
+  padding-left: 1.25rem;
+  margin-bottom: 1.25rem;
+}
+
+/* Responsive Design for Accueil */
+@media (max-width: 1024px) {
+  .accueil-hero {
+    padding-right: 18rem;
+    min-height: 280px;
+  }
+  .accueil-image {
+    width: 280px;
+  }
+}
+
+@media (max-width: 768px) {
+  .accueil-hero {
+    padding-right: 0;
+  }
+  .accueil-image {
+    position: static;
+    display: block;
+    margin-left: auto;
+    margin-bottom: 1rem;
+    width: 220px;
+  }
+}
+

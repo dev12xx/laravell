@@ -1,0 +1,65 @@
+:root {
+  --schb-blue: #0b3b59; /* dark navy */
+  --schb-blue-dark: #072b42; /* deeper navy for gradients */
+  --schb-light-blue: #eaf2f9; /* very light bluish background */
+  --schb-orange: #0b4e73; /* blue accent */
+  --schb-dark-orange: #083955; /* darker blue hover */
+  --schb-white: #ffffff;
+  --schb-gray: #f5f7fa; /* light gray */
+  --schb-dark-gray: #6b7280; /* gray-500 */
+  --schb-border: #e5e7eb; /* gray-200 */
+
+  /* Breakpoint tokens */
+  --bp-sm: 480px;
+  --bp-md: 768px;
+  --bp-lg: 1024px;
+  --bp-xl: 1200px;
+  --bp-ms: 640px; /* mid-small */
+
+  /* Spacing variables (responsive via media queries below) */
+  --container-padding: 2rem;
+  --form-padding: 3rem;
+
+  /* Base typography scale (can be tuned per breakpoint) */
+  font-size: 16px;
+}
+
+/* Responsive variable overrides */
+@media (max-width: 1024px) {
+  :root {
+    --container-padding: 1.5rem;
+    --form-padding: 2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  :root {
+    --container-padding: 1rem;
+    --form-padding: 1.5rem;
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 640px) {
+  :root {
+    --container-padding: 0.875rem;
+    --form-padding: 1.25rem;
+    font-size: 14.5px;
+  }
+}
+
+@media (max-width: 480px) {
+  :root {
+    --container-padding: 0.75rem;
+    --form-padding: 1rem;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 380px) {
+  :root {
+    --container-padding: 0.65rem;
+    --form-padding: 0.875rem;
+    font-size: 13.5px;
+  }
+}

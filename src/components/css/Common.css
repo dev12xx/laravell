@@ -1,0 +1,113 @@
+
+.btn {
+  padding: 0.75rem 1.25rem;
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.btn-primary {
+  background: linear-gradient(
+    135deg,
+    var(--schb-orange) 0%,
+    var(--schb-dark-orange) 100%
+  );
+  color: #fff;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.btn-secondary {
+  background: var(--schb-white);
+  color: #000000;
+  border-color: var(--schb-border);
+}
+
+.btn-secondary:hover {
+  border-color: var(--schb-blue);
+}
+
+/* Base step title (can be overridden in components) */
+.step-title {
+  color: #000000;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+/* Alerts */
+.alert {
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  border: 1px solid var(--schb-border);
+}
+
+.alert.error {
+  background: #ffe8e8;
+  border-color: #ffb3b3;
+  color: #b00020;
+}
+
+.alert.info {
+  background: var(--schb-light-blue);
+  border-color: #cfe2ff;
+  color: #000000;
+}
+
+.muted {
+  color: var(--schb-dark-gray);
+  margin-bottom: 1rem;
+}
+
+.captcha-box {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem 1rem;
+  font-weight: 800;
+  letter-spacing: 2px;
+  font-size: 1.2rem;
+  background: linear-gradient(135deg, #f2f2f2, #e0e0e0);
+  border: 2px dashed var(--schb-border);
+  border-radius: 6px;
+  user-select: none;
+}
+
+/* Reusable layout fragments */
+.actions-row {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.policy-box {
+  background: var(--schb-gray);
+  border-left: 4px solid var(--schb-blue);
+  border-radius: 8px;
+  padding: 1rem 1.25rem;
+  margin-bottom: 1rem;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .btn {
+    width: 100%;
+  }
+  .policy-box {
+    padding: 0.75rem 1rem;
+  }
+  .actions-row {
+    gap: 0.5rem;
+  }
+}

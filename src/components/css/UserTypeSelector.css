@@ -1,0 +1,116 @@
+/* User Type Selector */
+.user-type-selector {
+  background: var(--schb-white);
+  padding: 2.5rem;
+  border-radius: 15px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  margin-bottom: 3rem;
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
+}
+
+.user-type-selector h2 {
+  color: #000000;
+  margin-bottom: 2rem;
+  text-align: center;
+  font-size: 1.8rem;
+  font-weight: 700;
+}
+
+.selector-buttons {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.selector-btn {
+  background: var(--schb-white);
+  border: 2px solid var(--schb-border);
+  border-radius: 12px;
+  padding: 2rem 1.5rem;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  text-align: center;
+  min-height: 120px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.selector-btn:hover {
+  border-color: var(--schb-blue);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 25px rgba(0, 86, 179, 0.2);
+}
+
+.selector-btn.active {
+  border-color: var(--schb-orange);
+  background: linear-gradient(135deg, var(--schb-light-blue) 0%, #d4e6ff 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 86, 179, 0.15);
+}
+
+/* Icon styling */
+.btn-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #eef5ff;
+  color: var(--schb-blue);
+}
+
+.selector-btn:hover .btn-icon {
+  background: #e4efff;
+  color: var(--schb-orange);
+}
+
+.selector-btn.active .btn-icon {
+  background: #ffefe1;
+  color: var(--schb-orange);
+}
+
+.btn-label {
+  display: block;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #000000;
+  margin-bottom: 0.75rem;
+}
+
+.btn-description {
+  font-size: 1rem;
+  color: var(--schb-dark-gray);
+  line-height: 1.4;
+}
+
+@media (max-width: 768px) {
+  .selector-buttons {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .user-type-selector {
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .selector-btn {
+    padding: 1.5rem 1rem;
+    min-height: 100px;
+  }
+
+  .btn-label {
+    font-size: 1.2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .user-type-selector h2 {
+    font-size: 1.4rem;
+  }
+}

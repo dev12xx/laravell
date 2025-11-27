@@ -1,0 +1,83 @@
+/* Verification Steps */
+.steps-indicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 1.5rem;
+}
+
+.step-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--schb-border);
+  transition: background 0.3s ease;
+}
+
+.step-dot.active {
+  background: var(--schb-orange);
+}
+
+.step-line {
+  width: 60px;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--schb-border);
+  transition: background 0.3s ease;
+}
+
+.step-line.active {
+  background: var(--schb-orange);
+}
+
+/* Step title with icon */
+.report-form .step-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #000000;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+}
+
+.report-form .step-title svg {
+  width: 20px;
+  height: 20px;
+  color: var(--schb-orange);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .steps-indicator {
+    gap: 8px;
+  }
+  .step-line {
+    width: 40px;
+  }
+  .report-form .step-title {
+    font-size: 1rem;
+    gap: 6px;
+  }
+  .report-form .step-title svg {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .steps-indicator {
+    gap: 6px;
+  }
+  .step-line {
+    width: 28px;
+  }
+  .report-form .step-title {
+    font-size: 0.95rem;
+  }
+  .report-form .step-title svg {
+    width: 14px;
+    height: 14px;
+  }
+}
+

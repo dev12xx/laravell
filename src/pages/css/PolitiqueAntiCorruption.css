@@ -1,0 +1,138 @@
+/* Politique Anti-Corruption Page Styles */
+.policy-main-title {
+  color: #000000;
+  font-size: 2.2rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.policy-intro {
+  font-size: 1.2rem;
+  color: #4a5568;
+  text-align: center;
+  margin-bottom: 2rem;
+  line-height: 1.6;
+}
+
+.policy-image-wrapper {
+  display: flex;
+  justify-content: center;
+  margin: 2rem 0 3rem;
+}
+
+.policy-image {
+  max-width: 100%;
+  max-height: 400px;
+  width: auto;
+  height: auto;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e2e8f0;
+}
+
+.policy-section {
+  margin-bottom: 2.5rem;
+  background: #ffffff;
+  padding: 1.5rem;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.section-title {
+  color: #000000;
+  font-size: 1.8rem;
+  font-weight: 600;
+  margin-bottom: 1.2rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid #e2e8f0;
+}
+
+.section-subtitle {
+  color: #000000;
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin: 1.8rem 0 1rem;
+}
+
+.policy-text {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: #4a5568;
+  margin-bottom: 1.5rem;
+}
+
+.policy-list {
+  padding-left: 1.8rem;
+  line-height: 1.8;
+  color: #4a5568;
+  margin: 1rem 0;
+}
+
+.policy-list li {
+  margin-bottom: 0.8rem;
+  position: relative;
+}
+
+.policy-list li:before {
+  content: '•';
+  color: #2b6cb0;
+  font-weight: bold;
+  display: inline-block;
+  width: 1em;
+  margin-left: -1em;
+}
+
+.signature-section {
+  margin: 3rem 0;
+  text-align: right;
+  padding: 1.5rem 0;
+  border-top: 2px dashed #e2e8f0;
+}
+
+.signature {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #2d3748;
+  margin-bottom: 0.3rem;
+}
+
+.position {
+  font-size: 1.1rem;
+  color: #4a5568;
+  font-style: italic;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .policy-main-title {
+    font-size: 1.8rem;
+  }
+  
+  .section-title {
+    font-size: 1.5rem;
+  }
+  
+  .section-subtitle {
+    font-size: 1.2rem;
+  }
+  
+  .policy-text, .policy-list {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .policy-image {
+    max-height: 260px;
+  }
+  .policy-section {
+    padding: 1rem;
+  }
+  .policy-list {
+    padding-left: 1.2rem;
+  }
+  .signature-section {
+    text-align: center;
+  }
+}
