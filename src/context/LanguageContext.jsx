@@ -33,7 +33,7 @@ const translations = {
     'home.cta.report': 'Poser un signalement',
     'home.cta.policy': 'Lire la politique',
 
-    // Tracking page
+    //               Tracking page
     'track.badge': 'Suivi des signalements',
     'track.title': 'Suivi des signalements',
     'track.subtitle': 'Suivez l\'état de votre signalement à l\'aide du numéro reçu lors de l\'envoi.',
@@ -69,7 +69,7 @@ const translations = {
 
     'report.chooseProfile': 'Veuillez choisir un profil pour continuer.',
 
-    // Verification steps
+    //                    Verification steps
     'verify.title': 'Vérification',
     'verify.step0.title': 'Étape 0 : Confidentialité',
     'verify.step0.p1': 'Veuillez lire la Charte de Confidentialité « Charte de Recueil et Traitement de Signalement & de Protection de Lanceur d\'Alerte » avant de soumettre votre cas.',
@@ -105,7 +105,7 @@ const translations = {
     'footer.tel': '(Tel)',
     'footer.fax': '(Fax)',
 
-    // Client form
+    //                      Client form
     'client.title': 'Formulaire de Signalement - Client',
     'client.fullName': 'Nom Complet *',
     'client.company': 'Entreprise',
@@ -132,7 +132,7 @@ const translations = {
     'common.evidence': 'Preuves (documents, photos, etc.)',
     'client.submit': 'Soumettre le Signalement',
 
-    // Employee form
+    //                          Employee form
     'employee.title': 'Formulaire de Signalement - Employé',
     'employee.matricule': 'Matricule',
     'employee.department': 'Département *',
@@ -152,7 +152,7 @@ const translations = {
     'employee.followup': 'Je souhaite un suivi de mon signalement',
     'employee.submit': 'Soumettre le Signalement Interne',
 
-    // External form
+    //                     External form
     'external.title': 'Formulaire de Signalement - Partenaire/Fournisseur',
     'external.fullName': 'Nom Complet *',
     'external.incidentDept': 'Département SCHB concerné *',
@@ -165,7 +165,7 @@ const translations = {
     'external.evidence': 'Preuves (documents, emails, enregistrements)',
     'external.submit': 'Soumettre le Signalement',
 
-    // Success modal
+    //                       Success modal
     'success.title': 'Succès',
     'success.p1': 'Votre signalement a été soumis avec succès. Merci pour votre contribution.',
     'success.p2': 'Veuillez vérifier votre email après 24h.',
@@ -177,7 +177,7 @@ const translations = {
     'success.downloadQR': 'Télécharger le QR',
     'success.openTracking': 'Ouvrir le suivi',
 
-    // Policy page
+    //                         Policy page
     'policy.title': 'POLITIQUE ANTI-CORRUPTION',
     'policy.intro': 'Société des Ciments de Hamma Bouziane (SCHB) - Groupe Industriel des Ciments d\'Algérie (GICA)',
     'policy.sectionTitle': 'Objectif de la politique',
@@ -209,7 +209,7 @@ const translations = {
     'about.un_day.date': '9 décembre',
     'about.un_day.p1': "Cette journée, proclamée par l’ONU, vise à sensibiliser à l’importance de lutter contre la corruption et à promouvoir une culture d’intégrité.",
     'about.contact.p1': "Pour toute question, utilisez la page de politique ou contactez les canaux officiels de l’entreprise.",
-    // General info sections
+    //                   General info sections
     'about.definition.title': 'Qu’est-ce que la corruption ?',
     'about.definition.p1': "Abus de pouvoir à des fins personnelles, comme la corruption (pots-de-vin), le détournement, ou le favoritisme.",
     'about.forms.title': 'Formes courantes',
@@ -250,7 +250,7 @@ const translations = {
     'toggle.toArabic': 'Français',
     'toggle.toFrench': 'Français',
     
-    // Policy page
+    //                        Policy page
     'policy.title': 'سياسة مكافحة الفساد',
     'policy.intro': 'شركة إسمنت حمة بوزيان (SCHB) - المجمع الصناعي للإسمنت بالجزائر (GICA)',
     'policy.sectionTitle': 'الغرض من السياسة',
@@ -287,7 +287,7 @@ const translations = {
     'home.cta.report': 'تقديم بلاغ',
     'home.cta.policy': 'قراءة السياسة',
 
-    // Tracking page
+    //                       Tracking page
     'track.badge': 'Suivi des signalements',
     'track.title': 'متابعة التبليغات',
     'track.subtitle': 'تتبّع حالة بلاغك باستخدام رقم المتابعة الذي تم تزويدك به عند الإرسال.',
@@ -323,7 +323,7 @@ const translations = {
 
     'report.chooseProfile': 'يرجى اختيار نوع المستخدم للمتابعة.',
 
-    // Verification steps
+    //                   Verification steps
     'verify.title': 'التحقق',
     'verify.step0.title': 'الخطوة 0: السرية',
     'verify.step0.p1': 'يرجى قراءة ميثاق السرية « ميثاق جمع ومعالجة البلاغات وحماية المبلغين » قبل تقديم حالتك.',
@@ -359,7 +359,7 @@ const translations = {
     'footer.tel': '(هاتف)',
     'footer.fax': '(فاكس)',
 
-    // Client form
+    //                   Client form
     'client.title': 'نموذج الإبلاغ - زبون',
     'client.fullName': 'الاسم الكامل *',
     'client.company': 'المؤسسة',
@@ -386,7 +386,7 @@ const translations = {
     'common.evidence': 'أدلة (مستندات، صور، ...)',
     'client.submit': 'إرسال البلاغ',
 
-    // Employee form
+    //                  Employee form
     'employee.title': 'نموذج الإبلاغ - موظف',
     'employee.matricule': 'الرقم الوظيفي',
     'employee.department': 'القسم *',
@@ -406,7 +406,7 @@ const translations = {
     'employee.followup': 'أرغب في متابعة بلاغي',
     'employee.submit': 'إرسال البلاغ الداخلي',
 
-    // External form
+    //                  External form
     'external.title': 'نموذج الإبلاغ - شريك/مموّن',
     'external.fullName': 'الاسم الكامل *',
     'external.incidentDept': 'قسم SCHB المعني *',
@@ -419,7 +419,7 @@ const translations = {
     'external.evidence': 'أدلة (مستندات، بريد إلكتروني، تسجيلات)',
     'external.submit': 'إرسال البلاغ',
 
-    // Success modal
+    //                    Success modal
     'success.title': 'نجاح',
     'success.p1': 'تم إرسال بلاغك بنجاح. شكراً لمساهمتك.',
     'success.p2': 'يرجى التحقق من بريدك الإلكتروني بعد 24 ساعة.',
@@ -431,7 +431,7 @@ const translations = {
     'success.downloadQR': 'تحميل QR',
     'success.openTracking': 'فتح صفحة المتابعة',
 
-    // Policy page
+    //                       Policy page
     'policy.title': 'سياسة مكافحة الفساد',
     'policy.intro': 'معلومات حول سياسة مكافحة الفساد لدى SCHB.',
     'policy.sectionTitle': 'التزام شركة SCHB',
@@ -442,7 +442,7 @@ const translations = {
     'policy.li3': 'تكوين وتوعية الفرق بشكل منتظم.',
     'policy.li4': 'الالتزام بالقوانين والأنظمة المعمول بها.',
 
-    // About page
+    //                         About page
     'about.title': 'حول النظام',
     'about.subtitle': 'تعريف بالبوابة وهدفها',
     'about.system.title': 'ما هو هذا النظام؟',
@@ -452,7 +452,7 @@ const translations = {
     'about.un_day.date': '9 ديسمبر',
     'about.un_day.p1': 'أقرّته الأمم المتحدة لرفع الوعي بأهمية مكافحة الفساد وتعزيز ثقافة النزاهة.',
     'about.contact.p1': 'لأي استفسار، راجع صفحة السياسة أو اتصل بالقنوات الرسمية للمؤسسة.',
-    // General info sections
+    //                     General info sections
     'about.definition.title': 'ما هو الفساد؟',
     'about.definition.p1': 'استعمال غير مشروع للسلطة لتحقيق منفعة شخصية مثل الرشوة، الاختلاس، أو المحاباة.',
     'about.forms.title': 'أشكال شائعة',
