@@ -2,6 +2,8 @@ import React, { useRef, useState } from 'react';
 import './css/ReportForm.css';
 import SuccessModal from './SuccessModal.jsx';
 import { useLanguage } from '../context/LanguageContext.jsx';
+import PhoneInput from 'react-phone-input-2';
+import 'react-phone-input-2/lib/style.css';
 
 const ExternalForm = ({ prefillEmail = '' }) => {
   const { t } = useLanguage();
@@ -87,18 +89,33 @@ const ExternalForm = ({ prefillEmail = '' }) => {
 
         <div className="form-group">
           <label htmlFor="phone">{t('common.phone')}</label>
-          <input
-            type="tel"
-            id="phone"
-            name="phone"
+          <PhoneInput
+            country="dz"
             value={formData.phone}
-            inputMode="numeric"
-            pattern="[0-9]*"
-            maxLength={10}
-            onChange={(e) => {
-              e.target.value = e.target.value.replace(/\D/g, '').slice(0, 10);
-              handleChange(e);
+            onChange={(value, country) => {
+              const dialCode = country?.dialCode || '';
+              const raw = value.replace(/\D/g, '');
+              let local = raw;
+              if (dialCode && raw.startsWith(dialCode)) {
+                local = raw.slice(dialCode.length);
+              }
+              const maxLocal = dialCode === '213' ? 10 : 10;
+              const localTrimmed = local.slice(0, maxLocal);
+              const formatted = dialCode
+                ? (localTrimmed ? `+${dialCode}${localTrimmed}` : `+${dialCode}`)
+                : (localTrimmed ? `+${localTrimmed}` : '');
+              setFormData(prev => ({ ...prev, phone: formatted }));
             }}
+            inputProps={{
+              name: 'phone',
+              id: 'phone',
+              required: false,
+            }}
+            containerClass="phone-intl-container"
+            inputClass="phone-intl-input"
+            countryCodeEditable={false}
+            enableSearch
+            disableSearchIcon={false}
           />
         </div>
       </div>

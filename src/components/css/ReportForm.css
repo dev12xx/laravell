@@ -47,6 +47,63 @@
   background: var(--schb-white);
 }
 
+/* Phone input with country prefix */
+.phone-input-wrapper {
+  display: flex;
+  align-items: stretch;
+  width: 100%;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 2px solid var(--schb-border);
+  background: var(--schb-white);
+}
+
+.phone-prefix {
+  min-width: 90px;
+  padding: 0 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f3f4f6;
+  color: #111827;
+  font-weight: 600;
+  border-inline-end: 1px solid var(--schb-border);
+  user-select: none;
+}
+
+.phone-input {
+  flex: 1;
+  border: none;
+  padding: 1rem;
+  font-size: 1rem;
+  outline: none;
+}
+
+.phone-input:focus {
+  box-shadow: 0 0 0 3px rgba(0, 86, 179, 0.1);
+}
+
+/* International phone input (react-phone-input-2) in ClientForm */
+.phone-intl-container {
+  width: 100% !important;
+}
+
+.phone-intl-input {
+  width: 100% !important;
+  height: auto !important;
+  padding: 1rem 1rem 1rem 3.5rem !important;
+  border-radius: 8px !important;
+  border: 2px solid var(--schb-border) !important;
+  font-size: 1rem !important;
+  background: var(--schb-white) !important;
+}
+
+.phone-intl-container .flag-dropdown {
+  border-radius: 8px 0 0 8px !important;
+  border: 2px solid var(--schb-border) !important;
+  border-right: 1px solid var(--schb-border) !important;
+}
+
 .form-group input:focus,
 .form-group select:focus,
 .form-group textarea:focus {

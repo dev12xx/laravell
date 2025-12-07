@@ -137,6 +137,32 @@ const SuiviSignalements = () => {
     if (!w) return;
     const doc = w.document;
     const safe = (s) => String(s).replace(/[&<>]/g, (c) => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+    const formatPhone = (p) => {
+      const raw = String(p || '').replace(/\D/g, '');
+      if (!raw) return String(p || '');
+
+      let ccLen = 3;
+
+      if (raw.startsWith('213')) {
+        // Algeria: +213 + local
+        ccLen = 3;
+      } else if (raw.length === 11 && raw.startsWith('1')) {
+        // North America: +1 + 10 digits
+        ccLen = 1;
+      } else if (raw.length === 10) {
+        // e.g. 2-digit country code + 8 local digits
+        ccLen = 2;
+      } else if (raw.length <= 9) {
+        ccLen = 1;
+      } else if (raw.length >= 12) {
+        ccLen = 3;
+      }
+
+      const cc = raw.slice(0, ccLen);
+      const local = raw.slice(ccLen);
+      if (!local) return `+${cc}`;
+      return `+${cc} ${local}`;
+    };
     const printCSS = `
       body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; margin: 24px; color: #0f172a; }
       h1 { font-size: 20px; margin: 0 0 8px; }
@@ -145,8 +171,49 @@ const SuiviSignalements = () => {
       .row { display: flex; justify-content: space-between; border-bottom: 1px solid #e5e7eb; padding: 6px 0; }
       .timeline { margin-top: 12px; }
       .timeline-item { margin: 6px 0; }
-      code { white-space: pre-wrap; background:#f8fafc; padding:8px; border-radius:8px; display:block; border:1px solid #e5e7eb; font-size: 12px; }
+      .card { border: 1px solid #e5e7eb; border-radius: 12px; padding: 16px; margin-top: 16px; background: #ffffff; }
+      .logo-wrapper { display:flex; justify-content:center; margin-bottom:16px; }
+      .logo-wrapper img { max-width:140px; height:auto; object-fit:contain; }
     `;
+    const data = result.data || result.raw?.data || {};
+    const type = result.type || result.raw?.type || '';
+    const userRows = [];
+    if (type === 'client') {
+      if (data.fullName) userRows.push(`<div class="row"><strong>${safe(t('client.fullName'))}</strong><span>${safe(data.fullName)}</span></div>`);
+      if (data.company) userRows.push(`<div class="row"><strong>${safe(t('client.company'))}</strong><span>${safe(data.company)}</span></div>`);
+      if (data.relationType) userRows.push(`<div class="row"><strong>${safe(t('client.relation'))}</strong><span>${safe(data.relationType)}</span></div>`);
+      if (data.email) userRows.push(`<div class="row"><strong>${safe(t('common.email'))}</strong><span>${safe(data.email)}</span></div>`);
+      if (data.phone) userRows.push(`<div class="row"><strong>${safe(t('common.phone'))}</strong><span>${safe(formatPhone(data.phone))}</span></div>`);
+      if (data.department) userRows.push(`<div class="row"><strong>${safe(t('client.department'))}</strong><span>${safe(data.department)}</span></div>`);
+      if (data.orderNumber) userRows.push(`<div class="row"><strong>${safe(t('client.orderNumber'))}</strong><span>${safe(data.orderNumber)}</span></div>`);
+      if (data.incidentDate) userRows.push(`<div class="row"><strong>${safe(t('common.incidentDateTime'))}</strong><span>${safe(data.incidentDate)}</span></div>`);
+      if (data.description) userRows.push(`<div class="row"><strong>${safe(t('common.description'))}</strong><span>${safe(data.description)}</span></div>`);
+    } else if (type === 'employee') {
+      if (data.employeeId) userRows.push(`<div class="row"><strong>${safe(t('employee.matricule'))}</strong><span>${safe(data.employeeId)}</span></div>`);
+      if (data.email) userRows.push(`<div class="row"><strong>${safe(t('common.email'))}</strong><span>${safe(data.email)}</span></div>`);
+      if (data.department) userRows.push(`<div class="row"><strong>${safe(t('employee.department'))}</strong><span>${safe(data.department)}</span></div>`);
+      if (data.position) userRows.push(`<div class="row"><strong>${safe(t('employee.position'))}</strong><span>${safe(data.position)}</span></div>`);
+      if (data.supervisor) userRows.push(`<div class="row"><strong>${safe(t('employee.supervisor'))}</strong><span>${safe(data.supervisor)}</span></div>`);
+      if (data.incidentDate) userRows.push(`<div class="row"><strong>${safe(t('common.incidentDateTime'))}</strong><span>${safe(data.incidentDate)}</span></div>`);
+      if (data.location) userRows.push(`<div class="row"><strong>${safe(t('employee.location'))}</strong><span>${safe(data.location)}</span></div>`);
+      if (data.personsInvolved) userRows.push(`<div class="row"><strong>${safe(t('employee.persons'))}</strong><span>${safe(data.personsInvolved)}</span></div>`);
+      if (data.description) userRows.push(`<div class="row"><strong>${safe(t('common.description'))}</strong><span>${safe(data.description)}</span></div>`);
+      if (data.requestFollowUp != null) userRows.push(`<div class="row"><strong>${safe(t('employee.followup'))}</strong><span>${safe(data.requestFollowUp ? 'Oui' : 'Non')}</span></div>`);
+    } else if (type === 'external') {
+      if (data.fullName) userRows.push(`<div class="row"><strong>${safe(t('external.fullName'))}</strong><span>${safe(data.fullName)}</span></div>`);
+      if (data.email) userRows.push(`<div class="row"><strong>${safe(t('common.email'))}</strong><span>${safe(data.email)}</span></div>`);
+      if (data.phone) userRows.push(`<div class="row"><strong>${safe(t('common.phone'))}</strong><span>${safe(formatPhone(data.phone))}</span></div>`);
+      if (data.incidentDate) userRows.push(`<div class="row"><strong>${safe(t('common.incidentDateTime'))}</strong><span>${safe(data.incidentDate)}</span></div>`);
+      if (data.schbDepartment) userRows.push(`<div class="row"><strong>${safe(t('external.incidentDept'))}</strong><span>${safe(data.schbDepartment)}</span></div>`);
+      if (data.personsInvolved) userRows.push(`<div class="row"><strong>${safe(t('external.persons'))}</strong><span>${safe(data.personsInvolved)}</span></div>`);
+      if (data.description) userRows.push(`<div class="row"><strong>${safe(t('common.description'))}</strong><span>${safe(data.description)}</span></div>`);
+    } else {
+      if (data.fullName) userRows.push(`<div class="row"><strong>${safe('Nom')}</strong><span>${safe(data.fullName)}</span></div>`);
+      if (data.email) userRows.push(`<div class="row"><strong>${safe('Email')}</strong><span>${safe(data.email)}</span></div>`);
+      if (data.phone) userRows.push(`<div class="row"><strong>${safe('Téléphone')}</strong><span>${safe(formatPhone(data.phone))}</span></div>`);
+      if (data.description) userRows.push(`<div class="row"><strong>${safe(t('common.description'))}</strong><span>${safe(data.description)}</span></div>`);
+    }
+    const userInfoHtml = userRows.join('');
     const timelineHtml = STAGES_AR.map((label, idx) => {
       const v = result.raw?.stageTimes?.[String(idx)];
       if (!v) return '';
@@ -158,14 +225,18 @@ const SuiviSignalements = () => {
       <html dir="${lang === 'ar' ? 'rtl' : 'ltr'}" lang="${lang}">
       <head><meta charset="utf-8"><title>${safe(result.id)}</title><style>${printCSS}</style></head>
       <body>
+        <div class="logo-wrapper"><img src="/Logo-Gica.png" alt="Logo" /></div>
         <h1>${safe(t('track.title'))}</h1>
-        <div class="row"><strong>${safe(t('track.result.id'))}</strong><span>${safe(result.id)}</span></div>
-        <div class="row"><strong>${safe(t('track.result.status'))}</strong><span>${safe(result.status)}</span></div>
-        <div class="row"><strong>${safe(t('track.result.updated'))}</strong><span>${safe(result.updatedAt)}</span></div>
-        <h2>${safe(t('track.detail.title'))}</h2>
-        <div>${timelineHtml}</div>
-        <h2>JSON</h2>
-        <code>${safe(JSON.stringify(result.raw || result, null, 2))}</code>
+        <div class="card">
+          <div class="row"><strong>${safe(t('track.result.id'))}</strong><span>${safe(result.id)}</span></div>
+          <div class="row"><strong>${safe(t('track.result.status'))}</strong><span>${safe(result.status)}</span></div>
+          <div class="row"><strong>${safe(t('track.result.updated'))}</strong><span>${safe(result.updatedAt)}</span></div>
+        </div>
+        ${userInfoHtml ? `<div class="card"><h2>${safe(t('userType.title'))}</h2>${userInfoHtml}</div>` : ''}
+        <div class="card timeline">
+          <h2>${safe(t('track.detail.title'))}</h2>
+          <div>${timelineHtml}</div>
+        </div>
         <script>window.onload = () => { setTimeout(() => { window.print(); }, 200); };</script>
       </body></html>`;
     doc.open();
@@ -321,19 +392,17 @@ const SuiviSignalements = () => {
             ))}
           </div>
           <div className="search-row" style={{ marginTop: '0.5rem' }}>
-            <button type="button" className="btn" onClick={() => window.print()}>{t('track.detail.print')}</button>
+            <button type="button" className="btn" onClick={handleDownload}>{t('track.detail.print')}</button>
             <button type="button" className="btn" onClick={handleDownload}>{t('track.detail.download')}</button>
           </div>
         </div>
       )}
 
-      {result && appealRejected && (
-        <div style={{ minHeight:'40vh', display:'grid', placeItems:'center' }}>
-          <div style={{ textAlign:'center', background:'#fff1f2', border:'1px solid #fecdd3', color:'#be123c', padding:'16px 20px', borderRadius:12, maxWidth:600 }}>
-            <div style={{ fontSize:20, fontWeight:700, marginBottom:8 }}>لم يتم قبول الطعن</div>
-            <div style={{ marginBottom:12 }}>يرجى إعادة تقديم البلاغ من جديد مع معلومات أو أدلة إضافية.</div>
-            <a href="/plainte" className="btn" style={{ textDecoration:'none' }}>الذهاب إلى واجهة التحقق (Verification)</a>
-          </div>
+      {appealRejected && (
+        <div className="card info-card">
+          <div style={{ fontSize:20, fontWeight:700, marginBottom:8 }}>لم يتم قبول الطعن</div>
+          <div style={{ marginBottom:12 }}>يرجى إعادة تقديم البلاغ من جديد مع معلومات أو أدلة إضافية.</div>
+          <a href="/plainte" className="btn" style={{ textDecoration:'none' }}>الذهاب إلى واجهة التحقق (Verification)</a>
         </div>
       )}
 
