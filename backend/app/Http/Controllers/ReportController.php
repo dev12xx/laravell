@@ -25,16 +25,6 @@ class ReportController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -42,14 +32,39 @@ class ReportController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->validate([
-            'tracking_id' => 'required|string|max:255',
-            'payload' => 'required|array',
-        ]);
+        if ($request->isJson()) {
+            $data = $request->validate([
+                'tracking_id' => 'required|string|max:255',
+                'payload' => 'required|array',
+            ]);
+
+            $payload = $data['payload'];
+        } else {
+            $validated = $request->validate([
+                'tracking_id' => 'required|string|max:255',
+                'payload' => 'required',
+                'evidence' => 'nullable|file|max:10240',
+            ]);
+
+            $payload = json_decode($validated['payload'], true);
+            if (! is_array($payload)) {
+                $payload = [];
+            }
+
+            if ($request->hasFile('evidence')) {
+                $path = $request->file('evidence')->store('evidence', 'public');
+
+                if (! isset($payload['data']) || ! is_array($payload['data'])) {
+                    $payload['data'] = [];
+                }
+
+                $payload['data']['evidence_path'] = $path;
+            }
+        }
 
         $report = Report::updateOrCreate(
-            ['tracking_id' => $data['tracking_id']],
-            ['payload' => $data['payload']]
+            ['tracking_id' => $request->input('tracking_id')],
+            ['payload' => $payload]
         );
 
         $status = $report->wasRecentlyCreated ? 201 : 200;
@@ -72,17 +87,6 @@ class ReportController extends Controller
             'tracking_id' => $report->tracking_id,
             'payload' => $report->payload,
         ]);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Report  $report
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Report $report)
-    {
-        //
     }
 
     /**

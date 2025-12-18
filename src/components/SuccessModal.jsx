@@ -27,13 +27,26 @@ function formatDZ(date) {
 
 async function syncReportToBackend(trackingId, record) {
   try {
+    const formData = new FormData();
+
+    formData.append('tracking_id', trackingId);
+
+    const payload = { ...record };
+
+    if (payload && payload.data && typeof File !== 'undefined' && payload.data.evidence instanceof File) {
+      const file = payload.data.evidence;
+      formData.append('evidence', file);
+
+      const dataCopy = { ...payload.data };
+      delete dataCopy.evidence;
+      payload.data = dataCopy;
+    }
+
+    formData.append('payload', JSON.stringify(payload));
+
     await fetch(`${API_BASE}/reports`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        tracking_id: trackingId,
-        payload: record,
-      }),
+      body: formData,
     });
   } catch (e) {
     console.error('Failed to sync report to backend', e);

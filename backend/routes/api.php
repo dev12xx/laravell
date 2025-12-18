@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\VerificationController;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\AdminReportController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,4 +28,12 @@ Route::apiResource('reports', ReportController::class);
 Route::post('verification/send-code', [VerificationController::class, 'sendCode']);
 Route::get('/test', function () {
     return response()->json(['message' => 'Backend is working!']);
+});
+
+Route::post('admin/login', [AuthController::class, 'login']);
+
+Route::middleware('auth:sanctum')->prefix('admin')->group(function () {
+    Route::get('reports', [AdminReportController::class, 'index']);
+    Route::patch('reports/{report}', [AdminReportController::class, 'update']);
+    Route::delete('reports/{report}', [AdminReportController::class, 'destroy']);
 });

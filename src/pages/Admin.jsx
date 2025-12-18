@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8000/api';
+const FILE_BASE = API_BASE.replace(/\/_?api\/?$/, '');
 const STAGES_AR = [
   'تم إرسال الإبلاغ',
   'قيد المعالجة',
@@ -9,9 +10,6 @@ const STAGES_AR = [
   'لقد تم دراسة الملف',
   'لقد تم إرسال الرد في إيميلك',
 ]
-
-const ADMIN_USER = 'admin';
-const ADMIN_PASS = 'admin';
 
 function readReports() {
   try {
@@ -26,6 +24,7 @@ function readReports() {
 const Admin = () => {
   const navigate = useNavigate();
   const [auth, setAuth] = useState(() => sessionStorage.getItem('isAdmin') === 'true');
+  const [token, setToken] = useState(() => sessionStorage.getItem('adminToken') || '');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -41,11 +40,10 @@ const Admin = () => {
   const gridCols = isMobile ? '1fr' : '180px 1fr';
   const [editingId, setEditingId] = useState(null);
   const [stageEdits, setStageEdits] = useState({});
-  const [backendItems, setBackendItems] = useState([]);
-  const [backendLoading, setBackendLoading] = useState(false);
-  const [backendError, setBackendError] = useState('');
   const [reportsLoading, setReportsLoading] = useState(false);
   const [reportsError, setReportsError] = useState('');
+
+  const authHeaders = () => (token ? { Authorization: `Bearer ${token}` } : {});
 
   const pretty = (k) => (k || '')
     .replace(/([a-z])([A-Z])/g, '$1 $2')
@@ -64,11 +62,13 @@ const Admin = () => {
 
   async function syncReportToBackend(trackingId, record) {
     try {
-      await fetch(`${API_BASE}/reports`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      await fetch(`${API_BASE}/admin/reports/${encodeURIComponent(trackingId)}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          ...authHeaders(),
+        },
         body: JSON.stringify({
-          tracking_id: trackingId,
           payload: record,
         }),
       });
@@ -79,8 +79,11 @@ const Admin = () => {
 
   async function deleteReportFromBackend(trackingId) {
     try {
-      await fetch(`${API_BASE}/reports/${encodeURIComponent(trackingId)}`, {
+      await fetch(`${API_BASE}/admin/reports/${encodeURIComponent(trackingId)}`, {
         method: 'DELETE',
+        headers: {
+          ...authHeaders(),
+        },
       });
     } catch (e) {
       console.error('Failed to delete report from backend', e);
@@ -127,7 +130,11 @@ const Admin = () => {
     try {
       setReportsLoading(true);
       setReportsError('');
-      const res = await fetch(`${API_BASE}/reports`);
+      const res = await fetch(`${API_BASE}/admin/reports`, {
+        headers: {
+          ...authHeaders(),
+        },
+      });
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const data = await res.json();
       const normalized = (Array.isArray(data) ? data : []).map((row) => {
@@ -160,46 +167,6 @@ const Admin = () => {
     }
   };
 
-  const loadBackendItems = async () => {
-    try {
-      setBackendLoading(true);
-      setBackendError('');
-      const res = await fetch(`${API_BASE}/items`);
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      const data = await res.json();
-      setBackendItems(Array.isArray(data) ? data : []);
-    } catch (e) {
-      console.error(e);
-      setBackendError('Erreur de chargement depuis le backend');
-    } finally {
-      setBackendLoading(false);
-    }
-  };
-
-  const createBackendTestItem = async () => {
-    try {
-      setBackendLoading(true);
-      setBackendError('');
-      const res = await fetch(`${API_BASE}/items`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name: 'Test depuis Admin',
-          description: 'Élément de test créé depuis le panneau Admin.jsx',
-          price: 0,
-          quantity: 0,
-        }),
-      });
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      await loadBackendItems();
-    } catch (e) {
-      console.error(e);
-      setBackendError("Erreur lors de la création d'un élément de test");
-    } finally {
-      setBackendLoading(false);
-    }
-  };
-
   useEffect(() => {
     const onStorage = (e) => {
       if (e.key === 'reports') {
@@ -220,9 +187,9 @@ const Admin = () => {
   }, [lastKnownIds]);
 
   useEffect(() => {
-    loadBackendItems();
+    if (!token) return;
     loadBackendReports();
-  }, []);
+  }, [token]);
 
   useEffect(() => {
     const mq = window.matchMedia('(max-width: 768px)');
@@ -289,21 +256,50 @@ const Admin = () => {
     return g;
   }, [filtered]);
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     setError('');
-    if (username === ADMIN_USER && password === ADMIN_PASS) {
+    try {
+      const res = await fetch(`${API_BASE}/admin/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: username,
+          password,
+        }),
+      });
+
+      if (!res.ok) {
+        setError('Identifiants invalides');
+        return;
+      }
+
+      const json = await res.json();
+      const newToken = json?.token;
+
+      if (!newToken) {
+        setError('Identifiants invalides');
+        return;
+      }
+
       sessionStorage.setItem('isAdmin', 'true');
+      sessionStorage.setItem('adminToken', newToken);
+      setToken(newToken);
       setAuth(true);
       setUsername('');
       setPassword('');
-    } else {
-      setError('Identifiants invalides');
+    } catch (err) {
+      console.error(err);
+      setError('Erreur de connexion');
     }
   };
 
   const handleLogout = () => {
     sessionStorage.removeItem('isAdmin');
+    sessionStorage.removeItem('adminToken');
+    setToken('');
     setAuth(false);
   };
 
@@ -390,32 +386,7 @@ const Admin = () => {
             ? reportsError
             : `Dossiers: ${reports.length}`}
       </div>
-      <div style={{ marginTop: '0.5rem', fontSize: 12, color: '#64748b', display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
-        <span><strong>Backend Laravel/MySQL :</strong></span>
-        <span>
-          {backendLoading
-            ? 'Chargement...'
-            : backendError
-              ? backendError
-              : `Items: ${backendItems.length}`}
-        </span>
-        <button
-          type="button"
-          className="btn btn-secondary"
-          onClick={loadBackendItems}
-          style={{ padding: '0.25rem 0.5rem', fontSize: 12 }}
-        >
-          Rafraîchir backend
-        </button>
-        <button
-          type="button"
-          className="btn btn-secondary"
-          onClick={createBackendTestItem}
-          style={{ padding: '0.25rem 0.5rem', fontSize: 12 }}
-        >
-          Créer un élément de test
-        </button>
-      </div>
+      
 
       {(() => {
         const tabs = [
@@ -764,12 +735,8 @@ const Admin = () => {
                       ) : null
                     ))}
                   </div>
-                </section>
-              )}
 
-              {selected?.data && (
-                <section style={{ background:'#fff', padding:12, border:'1px solid #e5e7eb', borderRadius:8 }}>
-                  <div style={{ fontWeight:600, marginBottom:8 }}>Détails الحادث</div>
+                  <div style={{ fontWeight:600, marginTop:12, marginBottom:8 }}>Détails الحادث</div>
                   <div style={{ display:'grid', gridTemplateColumns: gridCols, gap:8 }}>
                     {['incidentDate','location','department','orderNumber','relationType','personsInvolved'].map((k) => (
                       selected.data[k] != null && selected.data[k] !== '' ? (
@@ -787,6 +754,11 @@ const Admin = () => {
                         </div>
                       </>
                     ) : null}
+                    {selected.data['evidence_path'] && (
+                      <div style={{ gridColumn: '1 / -1', display: 'none' }}>
+                        {/* Hidden section as we moved the button to the bottom */}
+                      </div>
+                    )}
                   </div>
                 </section>
               )}
@@ -807,23 +779,40 @@ const Admin = () => {
                 </section>
               )}
 
-              {selected?.data && selected.data['evidence'] ? (
-                <section style={{ background:'#fff', padding:12, border:'1px solid #e5e7eb', borderRadius:8 }}>
-                  <div style={{ fontWeight:600, marginBottom:8 }}>Pièces jointes</div>
-                  <div>
-                    {typeof selected.data['evidence'] === 'string' ? (
-                      <div>{selected.data['evidence']}</div>
-                    ) : selected.data['evidence']?.name ? (
-                      <div>{selected.data['evidence'].name}</div>
-                    ) : (
-                      <div>(non disponible)</div>
-                    )}
-                  </div>
-                </section>
-              ) : null}
-
-              <div style={{ display:'flex', gap:8, flexWrap:'wrap' }}>
-                <button className="btn btn-secondary" onClick={() => window.print()}>Imprimer</button>
+              <div style={{ display:'flex', gap:8, flexWrap:'wrap', marginTop: '16px' }}>
+                <button 
+                  className="btn btn-secondary" 
+                  onClick={() => window.print()}
+                  style={{ 
+                    padding: '4px 12px', 
+                    fontSize: '0.85rem',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    height: '32px'
+                  }}
+                >
+                  Imprimer
+                </button>
+                {selected.data?.['evidence_path'] && (
+                  <a
+                    href={`${FILE_BASE}/storage/${selected.data['evidence_path']}`}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="btn btn-secondary"
+                    style={{ 
+                      padding: '4px 12px', 
+                      fontSize: '0.8rem',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      height: '32px',
+                      textDecoration: 'none'
+                    }}
+                  >
+                    Evidence
+                  </a>
+                )}
               </div>
             </div>
           </div>

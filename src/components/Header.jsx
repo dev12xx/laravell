@@ -27,10 +27,10 @@ const Header = () => {
         </button>
       </div>
       <div className="header-actions">
-        <Link className="header-link" to="/">{t('nav.home')}</Link>
+        <Link className="header-link" to="/Accueil">{t('nav.home')}</Link>
         <Link className="header-link" to="/plainte" state={{ scrollTo: 'verification' }}>{t('nav.report')}</Link>
         <Link className="header-link" to="/suivi">{t('nav.track')}</Link>
-        <Link className="header-link" to="/politique-anti-corruption">{t('nav.policy')}</Link>
+        <Link className="header-link" to="/politique">{t('nav.policy')}</Link>
         <Link className="header-link" to="/about">{t('nav.about')}</Link>
       </div>
 
@@ -53,7 +53,7 @@ const Header = () => {
               <button aria-label="Close" className="mobile-close" onClick={() => setOpen(false)}>×</button>
             </div>
             <div className="mobile-links" onClick={() => setOpen(false)}>
-              <Link className="mobile-link" to="/">
+              <Link className="mobile-link" to="/Accueil">
                 <span className="mobile-link-icon" aria-hidden>
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3 2 12h3v8h6v-5h2v5h6v-8h3L12 3Z"/></svg>
                 </span>
@@ -71,7 +71,7 @@ const Header = () => {
                 </span>
                 {t('nav.track')}
               </Link>
-              <Link className="mobile-link" to="/politique-anti-corruption">
+              <Link className="mobile-link" to="/politique">
                 <span className="mobile-link-icon" aria-hidden>
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2 4 5v6c0 5 3.4 9.7 8 11 4.6-1.3 8-6 8-11V5l-8-3Zm0 18c-3.3-1.1-6-5-6-9.1V6.2l6-2.2 6 2.2v4.7C18 15 15.3 18.9 12 20Z"/></svg>
                 </span>
